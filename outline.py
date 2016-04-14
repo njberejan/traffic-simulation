@@ -5,14 +5,14 @@
 #for each "turn" run through random function to determine if object will slow down (1 in 10 will)
 class Road:
     def __init__(self):
-        self.length
+        self.length = 1000
         self.road_entrance
 
 class Car:
     def __init__(self):
-        self.max_speed = (default = 33.33 m/s
-        self.current_speed (default = 33.33 m/s)
-        self.acceleration_rate (defaul = 2 m/s)
+        self.max_speed = 33.33
+        self.current_speed = 0
+        self.acceleration_rate = 2
         self.position = (x , y)
 
     def move_car(self):
@@ -50,13 +50,19 @@ class Car:
         if self.position[1] > (1000) #index for self.position points to x value of x , y pairing
             starts loop over
 
-list_of_cars = {}
-car = Car()
-for car in list(range(30))
-    list_of_cars.append(car)
+    def create_starting_position(self):
+        number_of_cars = 30
+        x = 0
+        y = 0
+        position_list = []
+        for _ in range(number_of_cars):
+            position_list.append([x, y])
+            x += 1000/number_of_cars
+        return position_list
 
-for x in range(30):
-    cars = Car(speed, accelaration)
-    cars[x] = cars
+    def create_cars(self, position_list):
+        cars = [Car(position) for position in position_list]
+
+
 
 #dictionary with car number as key and value as car object
