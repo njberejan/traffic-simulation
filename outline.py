@@ -1,33 +1,49 @@
-#road is a graph of road-length (x axis) to time (y xis) to produce a tuple as car location (to provide it with a precise location)
-#if car gets within x distance of car in front of it, it needs to slow to match speed. if one more "move" would result in a crash, the car needs to stop.
+# road is a graph of road-length (x axis) to time (y xis) to produce a tuple as car location (to provide it with a precise location)
+# if car gets within x distance of car in front of it, it needs to slow to match speed. if one more "move" would result in a crash, the car needs to stop.
 # x = car position
 # y = time in seconds
-#for each "turn" run through random function to determine if object will slow down (1 in 10 will)
+# for each "turn" run through random function to determine if object will slow down (1 in 10 will)
+
+
 class Road:
     def __init__(self):
         self.length = 1000
         self.road_entrance
 
+
 class Car:
     def __init__(self, position):
-        self.max_speed = 33.33
+        self.max_speed = 33.33  # m/s
         self.current_speed = 0
         self.acceleration_rate = 2
         self.position = position
 
-    # def move_car(self):
-    #     self.position = self.position[0 + self.speed, y + 1] """because position is tuple
+    def move_car(self):
+        self.position = self.position + self.current_speed
+        self.position += 1
+        """because position is list
     #     index 0 is location on road (x-axis) and speed is meters/second,
     #     each turn is one second so meters covered is increase in distance."""
-    #     return self.position
-    #
-    # def accelerates_car(self):
-    #     car1.speed = 10 m/s
-    #     car1.acceleration = 2 m/s
-    #     while distance_to_car_in_front > car1.speed
-    #         car accelerates
-    #     else:
-    #         car matches speed
+        return self.position
+
+# decides if the driver slows down or speed up
+    def acceleration(self):
+        if random.randint(1, 10) == 1:
+            return 0 - self.acceleration_rate
+        else:
+            return self.acceleration_rate
+
+# update current speed
+    def accelerates_car(self):
+        self.current_speed += self.acceleration()
+        return self.current_speed
+
+    # def speed_up(self):
+    #     while self.position >
+        # While distance_to_car_in_front > car1.speed
+        #     car accelerates
+        # else:
+        #     car matches speed
     #
     # def slows_when_approaching(self):
     #     #how close is car to next car?
@@ -38,8 +54,8 @@ class Car:
     #         #stop
     #
     # def randomly_slows(self):
-    #     #each turn (second) randomly select 10% of car in car object list
-    #     #rand.randint(range(30) resulting pick corresponding index in the list objects self.speed
+        #each turn (second) randomly select 10% of car in car object list
+        #rand.randint(range(30) resulting pick corresponding index in the list objects self.speed
     #
     # def avoid_collision(self):
     #     # if car(x, y) will be greater than car_in_front(x, y) on the next turn, a collision has occured
@@ -49,6 +65,8 @@ class Car:
     # def restarts_loop(self):
     #     if self.position[1] > (1000) #index for self.position points to x value of x , y pairing
     #         starts loop over
+
+
 class Simulation:
 
     def __init__(self):
@@ -56,10 +74,9 @@ class Simulation:
 
     def create_starting_position(self):
         x = 0
-        y = 0
         position_list = []
         for _ in range(self.number_of_cars):
-            position_list.append([x, y])
+            position_list.append(x)
             x += round((1000/self.number_of_cars), 2)
         return position_list
 
@@ -67,11 +84,17 @@ class Simulation:
         cars = [Car(position) for position in position_list]
         return cars
 
+    # def set_cars(self, cars):
+    #     move_car = Car.move_cars()
+    #     return move_car
 
+# car = Car()
 simulation = Simulation()
-a_list = simulation.create_starting_position()
-cars = simulation.create_cars(a_list)
-print(cars)
+starting_position = simulation.create_starting_position()
+cars = simulation.create_cars(starting_position)
+# print(cars[0].position)
+# main()
+# loop every second
 
 
-#dictionary with car number as key and value as car object
+# dictionary with car number as key and value as car object
