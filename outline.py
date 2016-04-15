@@ -10,51 +10,52 @@ class Road:
         self.length = 1000
         self.road_entrance
 
-
 class Car:
-    def __init__(self, position, distance):
+    def __init__(self, position):
         self.max_speed = 33.33  # m/s
         self.current_speed = 0 #all cars start at a dead stop
         self.acceleration_rate = 2 # +2 per second
         self.position = position
-
-    def move_car(self):
-        self.position = self.position + self.current_speed
-        self.position = self.position + 1
-        return self.position
+        self.distance = 0
 
     # def move_car_position(self):
     #     self.position += 1
     #     return round(self.position, 2)
 
-# decides if the driver slows down or speed up
+# decides if the driver slows down, speeds up, or
     def acceleration(self):
         if random.randint(1, 10) == 1:
             return 0 - self.acceleration_rate
-        elif
+        # elif distance_between_cars() == self.current_speed:
+        #     self.acceleration_rate = 0
+        #     return self.acceleration_rate
         else:
+            self.acceleration_rate = 2
             return self.acceleration_rate
-# def randomly_slows(self):
-    #each turn (second) randomly select 10% of car in car object list
-    #rand.randint(range(30) resulting pick corresponding index in the list objects self.speed
 
 # update current speed
-    def accelerates_car(self):
+    def updates_speed(self):
         self.current_speed = self.current_speed + self.acceleration()
         return self.current_speed
+
+#moves one car object
+    def move_car(self):
+        self.position = self.position + self.current_speed
+        return self.position
 
 #determines if the car will overtake the car in front of it in the next second. If so, car stops.
     def avoid_collision(self):
         if (self.position + self.current_speed) >= (cars[i + 1].position + cars[i + 1].current_speed):
             self.current_speed == 0
-            """not sure how to denote the next car in line, so for now I'm using [i] for index and [i + 1]
-            for next car in line. Changes current speed to 0 to ensure it does not collide with the car ahead.
-            Index is on .positions to denote x value in x , y lists which make up position. """
 
 #resets the car's x value to 0, as it starts back at the beginning of the stretch of road.
     def restarts_loop(self):
         if self.position > (1000):
             self.position == 0
+#
+    def store_distance_bw_car(self, distance):
+        print (self.position + self.current_speed)
+        # return self.position + self.current_speed
 
     # def slows_when_approaching(self):
     #     #how close is car to next car?
@@ -89,12 +90,25 @@ class Simulation:
         return cars
 
     def set_cars(self, cars):
-        for index, car in cars.items():
-            move_car = car.move_car(distance_between_cars(car, cars[index+1]))
+#moves all cars in the simulation
+        for car in cars:
+            car.updates_speed()
+            acceleration_rate = car.acceleration()
+            move_car = car.move_car()
+            print(move_car)
+            print("acc: ", car.acceleration_rate)
+        print ("________")
         return move_car
+
+    # def total_distance_between_cars(self, cars):
+    #     for car in cars:
+    #         for i in range(29):
+    #             move_car = car.store_distance_bw_car(self.distance_between_cars(car, cars[i+1]))
+    #     return move_car
 
     def distance_between_cars(self, car1, car2):
         return car2.position - car1.position - 5
+
 
 
 
@@ -102,7 +116,9 @@ def main():
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
-    simulation.set_cars(cars)
+    for _ in range(10):
+        move_car = simulation.set_cars(cars)
+        # print(move_car)
     # print(cars[0].position)
 
 
