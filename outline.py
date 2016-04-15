@@ -13,8 +13,8 @@ class Road:
 class Car:
     def __init__(self, position):
         self.max_speed = 33.33  # m/s
-        self.current_speed = 0 #all cars start at a dead stop
-        self.acceleration_rate = 2 # +2 per second
+        self.current_speed = 0  #all cars start at a dead stop
+        self.acceleration_rate = 2  # +2 per second
         self.position = position
         self.distance = 0
 
