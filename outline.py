@@ -18,14 +18,16 @@ class Car:
         self.position = position
         self.distance = 0
 
-    # def move_car_position(self):
-    #     self.position += 1
-    #     return round(self.position, 2)
-
 # decides if the driver slows down, speeds up, or
+# """first round, if cars start at 0, chance a car rolls a 1 and has "slows" from speed of 0 m/s"""
     def acceleration(self):
         if random.randint(1, 10) == 1:
-            return 0 - self.acceleration_rate
+            self.acceleration_rate = -2
+            return self.acceleration_rate
+        elif self.current_speed > 33:
+            self.current_speed = self.max_speed
+            self.acceleration_rate = 0
+            return self.acceleration_rate
         # elif distance_between_cars() == self.current_speed:
         #     self.acceleration_rate = 0
         #     return self.acceleration_rate
@@ -35,23 +37,26 @@ class Car:
 
 # update current speed
     def updates_speed(self):
-        self.current_speed = self.current_speed + self.acceleration()
+        print('original speed: ', self.current_speed)
+        acceleration_variable = self.acceleration()
+        self.current_speed = self.current_speed + acceleration_variable
+        print('acceleration rate: ', acceleration_variable)
+        print('updated speed: ', self.current_speed)
         return self.current_speed
 
 #moves one car object
+    """aded condition to loop around"""
     def move_car(self):
-        self.position = self.position + self.current_speed
+        if self.position + self.current_speed >= 1000:
+            self.position = 0 + self.current_speed
+        else:
+            self.position = self.position + self.current_speed
         return self.position
 
 #determines if the car will overtake the car in front of it in the next second. If so, car stops.
     def avoid_collision(self):
         if (self.position + self.current_speed) >= (cars[i + 1].position + cars[i + 1].current_speed):
-            self.current_speed == 0
-
-#resets the car's x value to 0, as it starts back at the beginning of the stretch of road.
-    def restarts_loop(self):
-        if self.position > (1000):
-            self.position == 0
+            self.current_speed = 0
 #
     def store_distance_bw_car(self, distance):
         print (self.position + self.current_speed)
@@ -91,13 +96,14 @@ class Simulation:
 
     def set_cars(self, cars):
 #moves all cars in the simulation
+        counter = 0
         for car in cars:
-            car.updates_speed()
-            acceleration_rate = car.acceleration()
-            move_car = car.move_car()
-            print(move_car)
-            print("acc: ", car.acceleration_rate)
-        print ("________")
+            print('where it was: ', car.position)
+            car.updates_speed() #RETURNS CURRENT SPEED. changes m/s to current speed plus acceleration
+            move_car = car.move_car() #RETURNS NEW POSITION. changes position by adding previous position to speed (in m/s)
+            print('where it should be: ', move_car)
+            counter += 1
+            print('count: ', counter)
         return move_car
 
     # def total_distance_between_cars(self, cars):
@@ -110,13 +116,11 @@ class Simulation:
         return car2.position - car1.position - 5
 
 
-
-
 def main():
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
-    for _ in range(10):
+    for _ in range(60):
         move_car = simulation.set_cars(cars)
         # print(move_car)
     # print(cars[0].position)
