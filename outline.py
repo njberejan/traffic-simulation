@@ -14,8 +14,8 @@ class Road:
 class Car:
     def __init__(self, position, distance):
         self.max_speed = 33.33  # m/s
-        self.current_speed = 0 #all cars start at a dead stop
-        self.acceleration_rate = 2 # +2 per second
+        self.current_speed = 0  #all cars start at a dead stop
+        self.acceleration_rate = 2  # +2 per second
         self.position = position
 
     def move_car(self):
@@ -31,7 +31,6 @@ class Car:
     def acceleration(self):
         if random.randint(1, 10) == 1:
             return 0 - self.acceleration_rate
-        elif
         else:
             return self.acceleration_rate
 # def randomly_slows(self):
