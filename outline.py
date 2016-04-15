@@ -3,7 +3,7 @@
 # x = car position
 # y = time in seconds
 # for each "turn" run through random function to determine if object will slow down (1 in 10 will)
-
+import random
 
 class Road:
     def __init__(self):
@@ -14,17 +14,20 @@ class Road:
 class Car:
     def __init__(self, position):
         self.max_speed = 33.33  # m/s
-        self.current_speed = 0
-        self.acceleration_rate = 2
-        self.position = position
+        self.current_speed = 0  # m/s
+        self.acceleration_rate = 2  # m/s^2
+        self.position = position  # m
 
     def move_car(self):
-        self.position = self.position + self.current_speed
-        self.position += 1
+        self.position += self.current_speed
         """because position is list
     #     index 0 is location on road (x-axis) and speed is meters/second,
     #     each turn is one second so meters covered is increase in distance."""
         return self.position
+
+    # def move_car_position(self):
+    #     self.position += 1
+    #     return round(self.position, 2)
 
 # decides if the driver slows down or speed up
     def acceleration(self):
@@ -32,19 +35,26 @@ class Car:
             return 0 - self.acceleration_rate
         else:
             return self.acceleration_rate
+# def randomly_slows(self):
+    #each turn (second) randomly select 10% of car in car object list
+    #rand.randint(range(30) resulting pick corresponding index in the list objects self.speed
 
 # update current speed
     def accelerates_car(self):
-        self.current_speed += self.acceleration()
+        self.current_speed = self.current_speed + self.acceleration()
         return self.current_speed
+
+    def distance_to_car_in_front():
+        pass
 
     # def speed_up(self):
     #     while self.position >
-        # While distance_to_car_in_front > car1.speed
-        #     car accelerates
-        # else:
-        #     car matches speed
-    #
+    #     While distance_to_car_in_front > car1.speed
+    #         car accelerates
+    #     else:
+    #         car matches speed
+
+
     # def slows_when_approaching(self):
     #     #how close is car to next car?
     #     car1.speed = 33 m/s
@@ -52,11 +62,8 @@ class Car:
     #         if distance_to_car_in_front < 28 m
     #             car_slows_down() #car1.speed changes, car1.accelaration changes
     #         #stop
-    #
-    # def randomly_slows(self):
-        #each turn (second) randomly select 10% of car in car object list
-        #rand.randint(range(30) resulting pick corresponding index in the list objects self.speed
-    #
+
+
     # def avoid_collision(self):
     #     # if car(x, y) will be greater than car_in_front(x, y) on the next turn, a collision has occured
     #     #     car needs to stop
@@ -84,17 +91,26 @@ class Simulation:
         cars = [Car(position) for position in position_list]
         return cars
 
-    # def set_cars(self, cars):
-    #     move_car = Car.move_cars()
-    #     return move_car
+    def set_cars(self, cars):
+        for car in cars:
+            move_car = car.move_car()
+            print (car.accelerates_car())
+        return move_car
 
-# car = Car()
-simulation = Simulation()
-starting_position = simulation.create_starting_position()
-cars = simulation.create_cars(starting_position)
-# print(cars[0].position)
-# main()
-# loop every second
+    # def get_distance(self):
+    #     front carposition - current car distance = distance between car
+
+
+def main():
+    simulation = Simulation()
+    starting_position = simulation.create_starting_position()
+    cars = simulation.create_cars(starting_position)
+    simulation.set_cars(cars)
+    # print(cars[0].position)
+
+
+if __name__ == "__main__":
+    main()
 
 
 # dictionary with car number as key and value as car object
