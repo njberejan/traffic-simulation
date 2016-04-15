@@ -11,12 +11,14 @@ class Road:
         self.road_entrance
 
 class Car:
-    def __init__(self, position):
+    def __init__(self, position, next_car):
         self.max_speed = 33.33  # m/s
-        self.current_speed = 0  #all cars start at a dead stop
+        self.current_speed = 0  # all cars start at a dead stop
         self.acceleration_rate = 2  # +2 per second
         self.position = position
         self.distance = 0
+        self.next_car = next_car
+        self.length = 5
 
 # decides if the driver slows down, speeds up, or
 # """first round, if cars start at 0, chance a car rolls a 1 and has "slows" from speed of 0 m/s"""
@@ -48,19 +50,19 @@ class Car:
     """aded condition to loop around"""
     def move_car(self):
         if self.position + self.current_speed >= 1000:
-            self.position = 0 + self.current_speed
+            self.position = self.current_speed
         else:
             self.position = self.position + self.current_speed
         return self.position
 
 #determines if the car will overtake the car in front of it in the next second. If so, car stops.
     def avoid_collision(self):
-        if (self.position + self.current_speed) >= (cars[i + 1].position + cars[i + 1].current_speed):
+        if (self.position + self.current_speed) >= (self.next_car + self.next_car.current_speed):
             self.current_speed = 0
-#
-    def store_distance_bw_car(self, distance):
-        print (self.position + self.current_speed)
-        # return self.position + self.current_speed
+
+# calculates the distance between current car and next car
+    def distance_between_car_in_front(self):
+        return self.position - self.next_car.position - self.length
 
     # def slows_when_approaching(self):
     #     #how close is car to next car?
@@ -80,7 +82,7 @@ class Car:
 class Simulation:
 
     def __init__(self):
-        self.number_of_cars = 30
+        self.number_of_cars = 3
 
     def create_starting_position(self):
         x = 0
@@ -90,12 +92,23 @@ class Simulation:
             x += round((1000/self.number_of_cars), 2)
         return position_list
 
+# create cars object and links the car to the next car
     def create_cars(self, position_list):
-        cars = [Car(position) for position in position_list]
+        cars = []
+
+        next_car = None
+
+        for position in position_list:
+            car = Car(position, next_car)
+            next_car = car
+            cars.append(car)
+
+        cars[0].next_car = cars[-1]
+
         return cars
 
     def set_cars(self, cars):
-#moves all cars in the simulation
+        #  moves all cars in the simulation
         counter = 0
         for car in cars:
             print('where it was: ', car.position)
@@ -104,26 +117,19 @@ class Simulation:
             print('where it should be: ', move_car)
             counter += 1
             print('count: ', counter)
+            print ("distance: ", car.distance_between_car_in_front())
+            print("____")
         return move_car
-
-    # def total_distance_between_cars(self, cars):
-    #     for car in cars:
-    #         for i in range(29):
-    #             move_car = car.store_distance_bw_car(self.distance_between_cars(car, cars[i+1]))
-    #     return move_car
-
-    def distance_between_cars(self, car1, car2):
-        return car2.position - car1.position - 5
 
 
 def main():
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
-    for _ in range(60):
-        move_car = simulation.set_cars(cars)
+    for _ in range(2):
+        simulation.set_cars(cars)
         # print(move_car)
-    # print(cars[0].position)
+
 
 
 if __name__ == "__main__":
