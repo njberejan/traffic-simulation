@@ -12,13 +12,13 @@ class Road:
 
 
 class Car:
-    def __init__(self, position):
+    def __init__(self, position, distance):
         self.max_speed = 33.33  # m/s
         self.current_speed = 0  # m/s
         self.acceleration_rate = 2  # m/s^2
         self.position = position  # m
 
-    def move_car(self):
+    def move_car(self, distance):
         self.position += self.current_speed
         """because position is list
     #     index 0 is location on road (x-axis) and speed is meters/second,
@@ -44,8 +44,8 @@ class Car:
         self.current_speed = self.current_speed + self.acceleration()
         return self.current_speed
 
-    def distance_to_car_in_front():
-        pass
+
+
 
     # def speed_up(self):
     #     while self.position >
@@ -92,13 +92,13 @@ class Simulation:
         return cars
 
     def set_cars(self, cars):
-        for car in cars:
-            move_car = car.move_car()
-            print (car.accelerates_car())
+        for index, car in cars.items():
+            move_car = car.move_car(distance_between_cars(car, cars[index+1]))
         return move_car
 
+    def distance_between_cars(self, car1, car2):
+        return car2.position - car1.position - 5
     # def get_distance(self):
-    #     front carposition - current car distance = distance between car
 
 
 def main():
