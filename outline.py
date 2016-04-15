@@ -10,6 +10,7 @@ class Road:
         self.length = 1000
         self.road_entrance
 
+
 class Car:
     def __init__(self, position, distance):
         self.max_speed = 33.33  # m/s
@@ -93,7 +94,6 @@ class Simulation:
     def set_cars(self, cars):
         for index, car in cars.items():
             move_car = car.move_car(distance_between_cars(car, cars[index+1]))
-
         return move_car
 
     def distance_between_cars(self, car1, car2):
