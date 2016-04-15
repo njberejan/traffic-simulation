@@ -18,8 +18,8 @@ class Car:
         self.position = position
 
     def move_car(self):
-        self.position[0] = self.position[0] + self.current_speed """these are two values of a list"""
-        self.position[1] = self.position[1] + 1 """so I've added the index positions to the object attributes"""
+        self.position = self.position + self.current_speed
+        self.position = self.position + 1
         return self.position
 
 # decides if the driver slows down or speed up or maintains speed
@@ -27,7 +27,9 @@ class Car:
     def acceleration(self):
         if random.randint(1, 10) == 1:
             return 0 - self.acceleration_rate
+        elif
         else:
+
             """I suggest we figure out the acceleration algorithm here. If the cars[i + 1] (car in front)
             is farther away in meters than the speed of cars[i] (this car), it will speed up."""
             return self.acceleration_rate
@@ -41,7 +43,7 @@ class Car:
 
 #determines if the car will overtake the car in front of it in the next second. If so, car stops.
     def avoid_collision(self):
-        if (self.position[0] + self.current_speed) >= (cars[i + 1].position[0] + cars[i + 1].current_speed):
+        if (self.position + self.current_speed) >= (cars[i + 1].position + cars[i + 1].current_speed):
             self.current_speed == 0
             """not sure how to denote the next car in line, so for now I'm using [i] for index and [i + 1]
             for next car in line. Changes current speed to 0 to ensure it does not collide with the car ahead.
@@ -49,8 +51,8 @@ class Car:
 
 #resets the car's x value to 0, as it starts back at the beginning of the stretch of road.
     def restarts_loop(self):
-        if self.position[0] > (1000):
-            self.position[0] == 0
+        if self.position > (1000):
+            self.position == 0
 
 
 
@@ -70,6 +72,10 @@ class Simulation:
     def create_cars(self, position_list):
         cars = [Car(position) for position in position_list]
         return cars
+
+    def set_cars(self, cars):
+        for index, car in cars.items():
+            move_car = car.move_car(distance_between_cars)car, cars[index + 1]))
 
     # def set_cars(self, cars):
     #     move_car = Car.move_cars()
