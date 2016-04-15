@@ -10,7 +10,6 @@ class Road:
         self.length = 1000
         self.road_entrance
 
-
 class Car:
     def __init__(self, position):
         self.max_speed = 33.33  # m/s
