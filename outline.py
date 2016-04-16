@@ -45,7 +45,7 @@ class Car:
         return self.current_speed
 
 #moves one car object
-    """aded condition to loop around"""
+    """added condition to loop around"""
     def move_car(self):
         if self.position + self.current_speed >= 1000:
             self.position = 0 + self.current_speed
