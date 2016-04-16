@@ -1,14 +1,11 @@
-# road is a graph of road-length (x axis) to time (y xis) to produce a tuple as car location (to provide it with a precise location)
-# if car gets within x distance of car in front of it, it needs to slow to match speed. if one more "move" would result in a crash, the car needs to stop.
-# x = car position
-# y = time in seconds
-# for each "turn" run through random function to determine if object will slow down (1 in 10 will)
 import random
+
 
 class Road:
     def __init__(self):
         self.length = 1000
         self.road_entrance
+
 
 class Car:
     def __init__(self, position, next_car):
@@ -16,12 +13,11 @@ class Car:
         self.current_speed = 0  # all cars start at a dead stop
         self.acceleration_rate = 2  # +2 per second
         self.position = position
-        self.distance = 0
         self.next_car = next_car
         self.length = 5
 
-# decides if the driver slows down, speeds up, or
-# """first round, if cars start at 0, chance a car rolls a 1 and has "slows" from speed of 0 m/s"""
+#  decides if the driver slows down, speeds up, or
+#  first round, if cars start at 0, chance a car rolls a 1 and has "slows" from speed of 0 m/s"""
     def acceleration(self):
         if random.randint(1, 10) == 1:
             self.acceleration_rate = -2
@@ -46,7 +42,7 @@ class Car:
         print('updated speed: ', self.current_speed)
         return self.current_speed
 
-#moves one car object
+# moves one car object
     """aded condition to loop around"""
     def move_car(self):
         if self.position + self.current_speed >= 1000:
@@ -55,23 +51,24 @@ class Car:
             self.position = self.position + self.current_speed
         return self.position
 
-#determines if the car will overtake the car in front of it in the next second. If so, car stops.
-    def avoid_collision(self):
-        if (self.position + self.current_speed) >= (self.next_car + self.next_car.current_speed):
+# determines if the car will overtake the car in front of it in the next second. If so, car stops.
+    def avoid_collision(self): # doesnt work yet
+        if (self.position + self.current_speed) >= (self.next_car.position + self.next_car.current_speed):
             self.current_speed = 0
+            return self.current_speed
 
 # calculates the distance between current car and next car
     def distance_between_car_in_front(self):
         return self.position - self.next_car.position - self.length
 
-    # def slows_when_approaching(self):
-    #     #how close is car to next car?
-    #     car1.speed = 33 m/s
-    #     car1.acceleration = 2 m/s
-    #         if distance_to_car_in_front < 28 m
-    #             car_slows_down() #car1.speed changes, car1.accelaration changes
-    #         #stop
+    def if_car_is_too_close(self):
+            if self.distance_between_car_in_front() < 10:
+                self.current_speed = self.next_car.current_speed
+                return self.current_speed
+            else:
+                return self.current_speed
 
+            # elif distance_between_car_in_front ==
 
     # def avoid_collision(self):
     #     # if car(x, y) will be greater than car_in_front(x, y) on the next turn, a collision has occured
@@ -82,7 +79,7 @@ class Car:
 class Simulation:
 
     def __init__(self):
-        self.number_of_cars = 3
+        self.number_of_cars = 10
 
     def create_starting_position(self):
         x = 0
@@ -117,7 +114,9 @@ class Simulation:
             print('where it should be: ', move_car)
             counter += 1
             print('count: ', counter)
-            print ("distance: ", car.distance_between_car_in_front())
+            # print ("distance: ", car.distance_between_car_in_front())
+            print ("car avoid: ", car.avoid_collision())
+            print ("closeness: ", car.if_car_is_too_close())
             print("____")
         return move_car
 
@@ -126,8 +125,10 @@ def main():
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
+
     for _ in range(2):
         simulation.set_cars(cars)
+        print ("~~~~~~~~~~~~")
         # print(move_car)
 
 
