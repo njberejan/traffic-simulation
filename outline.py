@@ -6,11 +6,10 @@ class Road:
         self.length = 1000
         self.road_entrance
 
-
 class Car:
-    def __init__(self, position, next_car):
+    def __init__(self, position, next_car, current_speed = 0):
         self.max_speed = 33.33  # m/s
-        self.current_speed = 0  # all cars start at a dead stop
+        self.current_speed = current_speed  # all cars start at a dead stop
         self.acceleration_rate = 2  # +2 per second
         self.position = position
         self.next_car = next_car
@@ -42,9 +41,10 @@ class Car:
             return self.current_speed
         else:
             self.current_speed = self.current_speed + acceleration_variable
+            return self.current_speed
         print('acceleration rate: ', acceleration_variable)
         print('updated speed: ', self.current_speed)
-        return self.current_speed
+
 
 
 # moves one car object
@@ -64,7 +64,11 @@ class Car:
 
 # calculates the distance between current car and next car
     def distance_between_car_in_front(self):
-        return self.position - self.next_car.position - self.length
+        if self.next_car.position >= 1000:
+            self.next_car.position = self.next_car.position = self.next_car.current_speed - (1000 - self.next_car.position)
+            return (self.position - (self.next_car.position - self.length))
+        else:
+            return (self.position - (self.next_car.position - self.length))
 
     def if_car_is_too_close(self):
             if self.distance_between_car_in_front() < 10:
@@ -115,30 +119,37 @@ class Simulation:
         list_of_movements_by_car = []
         for car in cars:
             print('where it was: ', car.position)
-            car.updates_speed() #RETURNS CURRENT SPEED. changes m/s to current speed plus acceleration
+            car.current_speed = car.updates_speed() #RETURNS CURRENT SPEED. changes m/s to current speed plus acceleration
             move_car = car.move_car() #RETURNS NEW POSITION. changes position by adding previous position to speed (in m/s)
             print('where it should be: ', move_car)
             counter += 1
             print('count: ', counter)
-            # print ("distance: ", car.distance_between_car_in_front())
-            print ("car avoid: ", car.avoid_collision())
+            print ("distance: ", car.distance_between_car_in_front())
+            # print ("car avoid: ", car.avoid_collision())
             print ("closeness: ", car.if_car_is_too_close())
+            print("current speed: ", car.current_speed)
             print("____")
-            list_of_movements_by_car.append(car.position)
+            list_of_movements_by_car.append(round(car.position, 2))
         return move_car, list_of_movements_by_car
 
-    def run_one_minute(self):
+    def run_one_minute(self, cars):
+        list_of_movements_in_a_turn = []
         for _ in range(60):
-            move_car, list_of_movements_by_car = simulation.set_cars(cars)
+            move_car, list_of_movements_by_car = self.set_cars(cars)
             list_of_movements_in_a_turn.append(list_of_movements_by_car)
             print(list_of_movements_in_a_turn)
             print ("~~~~~~~~~~~~")
+        return list_of_movements_in_a_turn
 
 def main():
-    list_of_movements_in_a_turn = []
+    list_simulation_results = []
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
+    for _ in range(10):
+        list_of_movements_in_a_turn = simulation.run_one_minute(cars)
+        list_simulation_results.append(list_of_movements_in_a_turn)
+    # print(list_simulation_results)
 
     # for _ in range(60):
     #     move_car, list_of_movements_by_car = simulation.set_cars(cars)
@@ -150,6 +161,4 @@ def main():
 
 
 if __name__ == "__main__":
-
-    for _ in range(10):
-        main()
+    main()
