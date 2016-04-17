@@ -80,6 +80,8 @@ class Car:
 
 # determines if the car will overtake the car in front of it in the next second. If so, car stops.
     def avoid_collision(self):  # doesnt work yet
+        print("heyyyy")
+
         if self.position + self.current_speed >= 1000:
             if self.current_speed - (1000 - self.position) >= self.next_car.current_speed - (1000 - self.next_car.position):
                 self.current_speed = 0
