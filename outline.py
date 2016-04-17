@@ -84,6 +84,7 @@ class Car:
             if self.current_speed - (1000 - self.position) >= self.next_car.current_speed - (1000 - self.next_car.position):
                 self.current_speed = 0
             elif self.position + self.current_speed >= self.next_car.position + self.next_car.current_speed:
+                print ("whats the speed!!", self.current_speed)
                 self.current_speed = 0
         else:
             return self.current_speed
