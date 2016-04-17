@@ -8,7 +8,7 @@ class Road:
 
 
 class Car:
-    def __init__(self, position, next_car, current_speed=0):
+    def __init__(self, position, next_car, current_speed=0):hom
         self.max_speed = 33.33  # m/s
         self.current_speed = current_speed  # all cars start at a dead stop
         self.acceleration_rate = 2  # +2 per second
