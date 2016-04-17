@@ -64,14 +64,20 @@ class Car:
 
 # calculates the distance between current car and next car
     def distance_between_car_in_front(self):
-        if self.next_car.position >= 1000:
-            self.next_car.position = self.next_car.position = self.next_car.current_speed - (1000 - self.next_car.position)
-            return (self.position - (self.next_car.position - self.length))
+        if self.next_car.position + self.next_car.current_speed >= 1000:
+            self.next_car.position = self.next_car.current_speed - (1000 - self.next_car.position)
+            current_car_position = self.position
+            next_car_position = self.next_car.position
+            distance_between_car = (self.position - (self.next_car.position - self.length))
+            print("current car position: ", current_car_position)
+            print("next car position: ", next_car_position)
+            print ("distance: ", distance_between_car)
+            return current_car_position, next_car_position, distance_between_car
         else:
             return (self.position - (self.next_car.position - self.length))
 
     def if_car_is_too_close(self):
-            if self.distance_between_car_in_front() < 10:
+            if (self.position + self.current_speed) >= (self.next_car.position + self.next_car.current_speed):
                 self.current_speed = self.next_car.current_speed
                 return self.current_speed
             else:
@@ -109,7 +115,7 @@ class Simulation:
             next_car = car
             cars.append(car)
 
-        cars[0].next_car = cars[-1]
+            cars[0].next_car = cars[-1]
 
         return cars
 
@@ -124,7 +130,8 @@ class Simulation:
             print('where it should be: ', move_car)
             counter += 1
             print('count: ', counter)
-            print ("distance: ", car.distance_between_car_in_front())
+            distance_between_car = car.distance_between_car_in_front()
+            print ("distance: ", distance_between_car)
             # print ("car avoid: ", car.avoid_collision())
             print ("closeness: ", car.if_car_is_too_close())
             print("current speed: ", car.current_speed)
