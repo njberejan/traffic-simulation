@@ -4,6 +4,7 @@ import statistics as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class Road:
     def __init__(self):
         self.length = 1000
