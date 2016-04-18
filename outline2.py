@@ -1,8 +1,5 @@
-import math
 import random
-import statistics as st
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 class Road:
     def __init__(self):
@@ -138,15 +135,12 @@ class Simulation:
 
     def run_one_minute(self, cars):
         list_of_movements_in_a_turn = []
-        # list_of_seconds_in_a_turn = []
-        # zipped_list = []
         count_time = 0
         for _ in range(60):
             move_car, list_of_movements_by_car = self.set_cars(cars)
             count_time += 1
-            list_of_movements_in_a_turn.append(list_of_movements_by_car)
-            list_of_movements_in_a_turn.append([count_time] * len(list_of_movements_by_car))
-            # list_of_seconds_in_a_turn.append(list(range(60)))
+            list_of_movements_in_a_turn.append((list_of_movements_by_car, count_time))
+            # print(list_of_movements_in_a_turn)
             # print("~~~~~~~~~~~~")
         # print(list_of_movements_in_a_turn)
         return list_of_movements_in_a_turn
@@ -154,54 +148,32 @@ class Simulation:
 
 def main():
     list_simulation_results = []
-    list_of_times = []
-    list_of_times_master = []
-    list_of_distances = []
-    list_of_distances_master = []
     simulation = Simulation()
     starting_position = simulation.create_starting_position()
     cars = simulation.create_cars(starting_position)
-    for _ in range(1):
+    for _ in range(60):
         list_of_movements_in_a_turn = simulation.run_one_minute(cars)
         list_simulation_results.append(list_of_movements_in_a_turn)
-    # print(list_simulation_results)
-    for list1 in list_simulation_results:
-        for list2 in list1:
-            list_of_times = list1[1::2]
-            list_of_distances = list1[0::2]
-    for index in list_of_times:
-        for value in index:
-            list_of_times_master.append(value)
-    for index2 in list_of_distances:
-        for value2 in index2:
-            list_of_distances_master.append(value2)
-    print(len(list_of_times_master))
-    print(len(list_of_distances_master))
-    return list_simulation_results, list_of_times_master, list_of_distances_master
-
+    return list_simulation_results
+    # print(list_simulation_results[0][0:3])
 
 
 if __name__ == "__main__":
-    list_simulation_results, list_of_times_master, list_of_distances_master = main()
-    #
-    # a_list = []
-    # for positions_list in list_simulation_results:
-    #     for positions in positions_list:
-    #         a_list.append(([position for position in positions], positions[1]))
-    # zipped_list_x, zipped_list_y = zip(*a_list)
-    # # print(a_list)
-    # pos, num = zip(*zipped_list_x)
+    list_simulation_results = main()
+    # print(list_simulation_results[0][0])
+    # print(list_simulation_results[0][0][0])
+    # print(list_simulation_results[0][0][1])
+    a_list = []
+    for positions_list in list_simulation_results:
+        for positions in positions_list:
+
+            a_list.append(([position for position in positions]))
+    zipped_list_x, zipped_list_y = zip(*a_list)
+    # print(a_list)
+    pos, num = zip(*zipped_list_x)
+    print(zipped_list_x)
     # print(zipped_list_y)
 
-    # x1 = list_simulation_results[0][0][0]
-    # y1 = list_simulation_results[0][0][1]
-    # plt.scatter(x1, y1)
-    # plt.xticks(range(5), x1)
-    # plt.xlabel("quarter")
-    # plt.ylabel("dollar billz")
-    # plt.title("Sales")
-    # plt.show()
-    #
 
 
 # for item in list_of_movements_in_a_turn:
