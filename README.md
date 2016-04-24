@@ -1,9 +1,9 @@
 # Traffic Simulation
 
-## Objectives
-Analyze the behavior of drivers on a new road to determine the optimal speed limits.
+This is a repository for the Traffic Simulation assignment from The Iron Yard in Durham, NC.
 
-### Assumptions
+This assignment was a weekend assignment assigned in pairs. Stacy Zhao and I built this traffic simulation over the course of three days. The simulation had the following requirements:
+
 * Drivers want to go up to 120 km/hr.
 * The average car is 5 meters long.
 * Drivers want at least a number of meters equal to their speed in meters/second between them and the next car.
@@ -13,7 +13,5 @@ Analyze the behavior of drivers on a new road to determine the optimal speed lim
 * Drivers will randomly (10% chance each second) slow by 2 m/s.
 * This section of road is one lane going one way.
 
-## Requirements
-* Python3
-* Jupyter Notebook
-* Required libraries in requirements.txt
+Please find our findings in the Jupyter Notebook file titled "TrafficSimulation.ipynb".
+
