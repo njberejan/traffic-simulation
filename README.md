@@ -13,5 +13,7 @@ This assignment was a weekend assignment assigned in pairs. Stacy Zhao and I bui
 * Drivers will randomly (10% chance each second) slow by 2 m/s.
 * This section of road is one lane going one way.
 
+The purpose was to build the simulator using Python class objects, then to graph traffic patters run during the simulation. 
+
 Please find our findings in the Jupyter Notebook file titled "TrafficSimulation.ipynb".
 
